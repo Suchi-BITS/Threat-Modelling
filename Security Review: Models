@@ -74,3 +74,122 @@ Defensive strategies:
 Rate limiting sensitive queries.
 Response fuzzing & output obfuscation.
 Query logging & anomaly detection.
+
+1. Which customers/partners are authenticated to access your model or service APIs?
+Answer:
+
+Authentication mechanisms should include OAuth, API keys, client certificates, or mutual TLS (mTLS).
+Role-Based Access Control (RBAC) ensures that customers/partners have only the permissions they need.
+Audit logs track all API access attempts for security and compliance monitoring.
+2. Can they act as a presentation layer on top of your service?
+Answer:
+
+Yes, customers or partners could create a UI or proxy that reskins your model while maintaining its core functionality.
+Risks:
+Potential misrepresentation of your service.
+Possible data leakage if the intermediary does not follow proper security measures.
+Mitigations:
+Branding guidelines and legal agreements to prevent misuse.
+Telemetry collection to detect anomalies in usage patterns.
+3. Can you revoke their access promptly in case of compromise?
+Answer:
+
+Yes, if you implement:
+API token revocation (e.g., JWT expiration & rotation).
+RBAC or Attribute-Based Access Control (ABAC) to revoke permissions dynamically.
+Automated monitoring for suspicious access attempts.
+4. What is your recovery strategy in the event of malicious use of your service or dependencies?
+Answer:
+
+Immediate Actions:
+Disable compromised credentials and block affected users.
+Rollback to a prior safe model version.
+Long-Term Actions:
+Incident response playbooks with forensic analysis.
+Behavioral anomaly detection for early threat detection.
+Security patches and dependency audits to prevent recurrence.
+5. Can a 3rd party build a façade around your model to re-purpose it and harm Microsoft or its customers?
+Answer:
+
+Yes, by wrapping your API in their own service, they could:
+Sell unauthorized access to your model.
+Manipulate outputs to mislead users.
+Extract training data through model inversion attacks.
+Mitigations:
+Rate limiting & watermarking model responses.
+Legal & contractual protections against misuse.
+Telemetry monitoring to detect unauthorized patterns.
+6. Do customers provide training data to you directly?
+Answer:
+
+If customers supply data, there must be strict validation to prevent data poisoning or adversarial attacks.
+7. How do you secure that data?
+Answer:
+
+Encryption in transit & at rest (TLS 1.2+/AES-256).
+Data access logging & audit trails.
+Zero-trust principles → Minimize unnecessary exposure.
+Automated anomaly detection to flag unexpected inputs.
+8. What if it’s malicious and your service is the target?
+Answer:
+
+Validation layers to filter out adversarial/malicious inputs.
+Quarantine and isolation of suspect data before training.
+Human-in-the-loop review for high-risk submissions.
+9. What does a false-positive look like here? What is the impact of a false-negative?
+Answer:
+
+False Positive (FP) → Blocking a legitimate user or action.
+Impact: Poor user experience, lost revenue, compliance issues.
+False Negative (FN) → Allowing an attack or harmful content.
+Impact: Security breach, reputational damage, model manipulation.
+10. Can you track and measure deviation of True Positive vs False Positive rates across multiple models?
+Answer:
+
+Yes, with proper telemetry and model evaluation tools:
+A/B testing on different models.
+Precision-Recall and ROC Curve tracking.
+Drift detection for FP/FN shifts over time.
+11. What kind of telemetry do you need to prove the trustworthiness of your model output to your customers?
+Answer:
+
+Confidence scores & model uncertainty metrics.
+Explainability tools (e.g., SHAP, LIME, Captum).
+Real-time performance monitoring (latency, accuracy, FP/FN tracking).
+Security telemetry (suspicious query patterns, adversarial detection).
+12. Identify all 3rd party dependencies in your ML/Training data supply chain – not just open source software, but data providers as well
+Answer:
+
+Software dependencies: Open-source libraries (TensorFlow, PyTorch, Scikit-Learn).
+Data sources: Public datasets, partner feeds, customer-submitted data.
+API integrations: 3rd-party MLaaS (AWS, Azure, Google AI).
+13. Why are you using them and how do you verify their trustworthiness?
+Answer:
+
+Why? → Pre-trained models, labeled datasets, compute efficiencies.
+Verification methods:
+Security audits & dependency scanning (e.g., Snyk, Dependabot).
+Provenance tracking & cryptographic integrity checks.
+Legal contracts & compliance requirements.
+14. Are you using pre-built models from 3rd parties or submitting training data to 3rd party MLaaS providers?
+Answer:
+
+Yes, if using Azure ML, AWS SageMaker, or Google AI for training.
+Risks:
+Data leakage through shared infrastructure.
+Proprietary model extraction risks.
+Mitigations:
+Federated Learning & Homomorphic Encryption.
+Data masking before submission to 3rd parties.
+15. Inventory news stories about attacks on similar products/services. Understanding that many AI/ML threats transfer between model types, what impact would these attacks have on your own products?
+Answer:
+
+Common AI/ML attacks:
+Data poisoning → Attackers manipulate training data.
+Adversarial attacks → Small perturbations fool models.
+Model inversion → Extract training data from outputs.
+Shadow models → Competitors duplicate proprietary models.
+Impact on your products:
+If your model lacks adversarial robustness, it may misclassify manipulated inputs.
+If not properly secured, data leakage could expose sensitive customer information.
+Competitors could retrain on stolen model outputs, reducing your competitive edge.
