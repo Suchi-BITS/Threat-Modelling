@@ -1,0 +1,76 @@
+Identify actions your model(s) or product/service could take which can cause customer harm online or in the physical domain
+1. Do you train with adversarial examples? What impact do they have on your model output in the physical domain?
+Answer:
+
+If adversarial examples are part of training, they increase model robustness against malicious inputs.
+Without adversarial training, the model is vulnerable to slight perturbations, causing incorrect classifications (e.g., misidentifying a stop sign as a speed limit sign).
+In physical domains (e.g., autonomous vehicles, biometric security), adversarial attacks can cause real-world failures, such as misclassifying an object due to printed adversarial patches.
+2. What does trolling look like to your product/service? How can you detect and respond to it?
+Answer:
+
+Trolling behavior varies but often involves manipulating input data (e.g., flooding with offensive content, spamming queries, or generating biased inputs).
+Detection mechanisms:
+Rate limiting & anomaly detection to detect high-volume or repetitive queries.
+Sentiment analysis to identify intentional toxicity.
+Behavioral tracking (e.g., unusual login patterns, coordinated activity).
+Response strategies:
+Automatic filtering based on abuse signals.
+Human moderation for high-impact cases.
+Adaptive learning to recognize evolving trolling patterns.
+3. What would it take to get your model to return a result that tricks your service into denying access to legitimate users?
+Answer:
+
+Attack scenarios:
+Adversarial inputs → Manipulating login credentials, biometrics, or fraud detection algorithms.
+Data poisoning → Introducing false negatives in training data to bias authentication systems.
+Edge-case exploitation → Finding rare patterns that trigger automated bans or false rejections.
+Mitigation strategies:
+Ensemble verification methods (e.g., multi-factor authentication).
+Monitoring model confidence scores for anomalies.
+Rollback & forensic analysis to detect attack patterns.
+4. What is the impact of your model being copied/stolen?
+Answer:
+
+Security risks:
+Competitors can replicate or fine-tune stolen models, reducing market advantage.
+Attackers can study vulnerabilities for adversarial attacks.
+Mitigation techniques:
+Watermarking models to detect unauthorized use.
+Federated learning to prevent centralized model leaks.
+Rate limiting API access to prevent extraction via model inversion.
+5. Can your model be used to infer membership of an individual person in a particular group, or simply in the training data?
+Answer:
+
+Membership inference attacks can determine if a specific data point was used in training, which is a privacy risk (e.g., in medical AI).
+Mitigation:
+Differential privacy → Adds noise to prevent memorization.
+Adversarial testing → Simulating attacks to measure vulnerability.
+Strict data governance → Limiting exposure of sensitive data.
+6. Can an attacker cause reputational damage or PR backlash to your product by forcing it to carry out specific actions?
+Answer:
+
+Potential attack vectors:
+Prompt injection or adversarial inputs leading to toxic, offensive, or biased outputs.
+Model poisoning → Inserting harmful patterns to produce unethical results.
+Defenses:
+Strict content filtering & safety layers.
+Real-time monitoring & rollback capabilities.
+Incident response plans for PR crises.
+7. How do you handle properly formatted but overtly biased data, such as from trolls?
+Answer:Bias detection:
+Embedding similarity analysis → Detecting systematic bias.
+Diversity-aware retraining → Ensuring models generalize fairly.
+Response strategies:
+Weighted sampling → Reducing overrepresentation of troll-driven data.
+Human review pipelines for flagged cases.
+Adaptive filtering → Learning to reject biased submissions.
+8. For each way to interact with or query your model, can that method be interrogated to disclose training data or model functionality?
+Answer:
+
+Potential risks:
+Model inversion → Reconstructing training data via API queries.
+Side-channel attacks → Extracting decision boundaries.
+Defensive strategies:
+Rate limiting sensitive queries.
+Response fuzzing & output obfuscation.
+Query logging & anomaly detection.
